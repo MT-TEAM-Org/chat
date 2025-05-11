@@ -1,4 +1,4 @@
-package com.myteam.chat.chat.service;
+package com.myteam.chat.kafka.service;
 
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
