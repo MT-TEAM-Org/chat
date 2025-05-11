@@ -1,4 +1,4 @@
-package com.myteam.chat.global.config;
+package com.myteam.chat.kafka.config;
 
 import java.util.HashMap;
 import java.util.Map;
