@@ -5,6 +5,5 @@ import org.springframework.stereotype.Repository;
 
 import com.myteam.chat.chat.domain.ChatRoom;
 
-@Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 }

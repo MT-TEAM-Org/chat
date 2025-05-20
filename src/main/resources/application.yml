@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_ENDPOINT}:3306/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:postgresql://${DB_ENDPOINT}:6543/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
     username: postgres.vicajgpdbhjueqmakcme
     password: ${DB_PASSWORD}
 
@@ -25,3 +25,7 @@ spring:
       #  validate Entity ? ???? ?? ?? ???? ??
       #  none ?????? ? ?? ???? ??.
     open-in-view: true
+
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret-key: ${JWT_SECRET_KEY}

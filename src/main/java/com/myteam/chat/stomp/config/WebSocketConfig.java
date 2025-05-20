@@ -8,7 +8,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
-import com.myteam.chat.chat.interceptor.StompHandler;
+import com.myteam.chat.stomp.handler.StompHandler;
 
 import lombok.RequiredArgsConstructor;
 
