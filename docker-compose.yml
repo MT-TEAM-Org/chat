@@ -14,14 +14,9 @@ services:
       DB_ENDPOINT: ${DB_ENDPOINT}
       DB_NAME: ${DB_NAME}
       DB_PASSWORD: ${DB_PASSWORD}
-      AWS_REGION: ${AWS_REGION}
-      AWS_BUCKET: ${AWS_BUCKET}
-      AWS_URL: ${AWS_URL}
       TZ: ${TZ}
       JWT_ISSUER: ${JWT_ISSUER}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-    networks:
-      - playhive-net
     restart: always
 
   zookeeper:
