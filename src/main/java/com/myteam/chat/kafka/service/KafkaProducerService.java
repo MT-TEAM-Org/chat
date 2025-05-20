@@ -3,7 +3,7 @@ package com.myteam.chat.kafka.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.myteam.chat.chat.service.request.ChatMessage;
+import com.myteam.chat.kafka.service.request.ChatMessage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.myteam.chat.chat.service.request;
+package com.myteam.chat.kafka.service.request;
 
 import java.time.LocalDateTime;
 
