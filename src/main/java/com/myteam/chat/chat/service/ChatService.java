@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatService {
 
 	private static final String ROOT_TOPIC_NAME = "room-";
-	private static final String ROOT_ELASTICSEARCH_TOPIC_NAME = "room-elasticsearch-";
 
 	private final KafkaProducerService kafkaProducerService;
 	private final BadWordFilter badWordFilter;
@@ -34,7 +33,6 @@ public class ChatService {
 
 		// Kafka에 메시지 전송
 		kafkaProducerService.sendMessage(ROOT_TOPIC_NAME + roomId, chat);
-		kafkaProducerService.sendMessage(ROOT_ELASTICSEARCH_TOPIC_NAME + roomId, chat);
 
 		return ChatResponse.createResponse(chat);
 	}
@@ -46,4 +44,9 @@ public class ChatService {
 		}
 		return message;
 	}
+
+	public void save() {
+
+	}
+
 }

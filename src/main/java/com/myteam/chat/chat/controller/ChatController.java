@@ -30,4 +30,5 @@ public class ChatController {
 		return ResponseEntity.ok(
 			chatService.createChat(roomId, message.getSender(), message.getSenderEmail(), message.getMessage()));
 	}
+
 }
