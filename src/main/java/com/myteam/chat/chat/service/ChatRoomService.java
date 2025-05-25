@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myteam.chat.chat.domain.ChatRoom;
 import com.myteam.chat.chat.repository.ChatRoomRepository;
 import com.myteam.chat.kafka.service.TopicManagementService;
+import com.myteam.chat.match.match.domain.Match;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +20,9 @@ public class ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final TopicManagementService topicManagementService;
 
-	public Long createChatRoom(Long id) {
-		ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().id(id).build());
+	public Long createChatRoom(Match match) {
+		ChatRoom chatRoom = chatRoomRepository.save(
+			ChatRoom.builder().id(match.getId()).startTime(match.getStartTime()).build());
 		topicManagementService.createTopic(ROOM_TOPIC + chatRoom.getId(), 3, (short)1);
 		return chatRoom.getId();
 	}

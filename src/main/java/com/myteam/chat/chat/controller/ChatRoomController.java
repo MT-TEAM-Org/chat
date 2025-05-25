@@ -18,8 +18,8 @@ public class ChatRoomController {
 
 	private final ChatRoomService chatRoomService;
 
-	@PostMapping
-	public ResponseEntity<Long> createChatRoom(@RequestBody ChatRoomSaveRequest chatRoomSaveRequest) {
-		return ResponseEntity.ok(chatRoomService.createChatRoom(chatRoomSaveRequest.getRoomId()));
-	}
+	// @PostMapping
+	// public ResponseEntity<Long> createChatRoom(@RequestBody ChatRoomSaveRequest chatRoomSaveRequest) {
+	// 	return ResponseEntity.ok(chatRoomService.createChatRoom(chatRoomSaveRequest.getRoomId()));
+	// }
 }
