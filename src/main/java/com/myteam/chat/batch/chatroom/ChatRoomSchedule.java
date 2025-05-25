@@ -32,7 +32,7 @@ public class ChatRoomSchedule {
 	private final ChatRoomReadService chatRoomReadService;
 
 	//매일 새벽 3시
-	@Scheduled(cron = "0 4 15 * * *")
+	@Scheduled(cron = "0 0 3 * * *")
 	public void chatRoomCron() {
 		//채팅방 토픽 삭제
 		chatRoomReadService.findChatRoomYesterDay().forEach(chatRoom -> {
