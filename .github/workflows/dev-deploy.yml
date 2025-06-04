@@ -39,7 +39,7 @@ jobs:
         with:
           host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_CHAT }}
           source: ./docker-compose.yml
           target: ~/play-hive/
           
@@ -70,7 +70,7 @@ jobs:
         with:
           host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_CHAT }}
           script: |
             echo "Checking if Java is installed..."
             if ! java -version &> /dev/null; then
@@ -86,7 +86,7 @@ jobs:
         with:
           host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_CHAT }}
           script: |
             # 이동할 디렉토리 설정
             DEPLOY_DIR=~/play-hive
