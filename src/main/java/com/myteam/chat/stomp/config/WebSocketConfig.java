@@ -20,8 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	private final StompHandler stompHandler;
 
-	@Value("frontend.url")
-	private final String frontendUrl;
+	@Value("${frontend.url}")
+	private String frontendUrl;
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
