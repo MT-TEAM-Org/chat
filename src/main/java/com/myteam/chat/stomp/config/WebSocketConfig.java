@@ -1,5 +1,6 @@
 package com.myteam.chat.stomp.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -19,6 +20,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	private final StompHandler stompHandler;
 
+	@Value("frontend.url")
+	private final String frontendUrl;
+
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.setApplicationDestinationPrefixes("/play-hive");
@@ -28,10 +32,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws-stomp")
-			.setAllowedOrigins("http://localhost:3000")
+			.setAllowedOrigins("http://localhost:3000", frontendUrl)
 			.withSockJS();
 		registry.addEndpoint("/ws-stomp")
-			.setAllowedOrigins("http://localhost:3000");
+			.setAllowedOrigins("http://localhost:3000", frontendUrl);
 	}
 
 	// STOMP에서 64KB 이상의 데이터 전송을 못하는 문제 해결
