@@ -22,7 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.setApplicationDestinationPrefixes("/play-hive");
-		registry.enableSimpleBroker("/room");
+//		registry.enableSimpleBroker("/room");
 	}
 
 	@Override

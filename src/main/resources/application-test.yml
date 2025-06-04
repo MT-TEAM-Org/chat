@@ -1,0 +1,42 @@
+spring:
+  jackson:
+    time-zone: Asia/Seoul
+
+  datasource:
+    url: jdbc:h2:mem:~/playhive;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        jdbc:
+          exception-handling: ignore
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: test
+
+logging:
+  level:
+    root: info  # 전체 로그를 INFO, DEBUG, WARN 수준으로 설정
+    org.springframework.security: warn
+    org.springframework.web: warn
+    com.myteam.server: info
+    # 필요 시 특정 SQL 로그를 추가하거나 Hibernate SQL 로그를 설정
+    hibernate.SQL: warn
+    org.springframework.boot.autoconfigure: INFO
+    org.springframework.beans.factory.support.DefaultListableBeanFactory: WARN
+    # 아직 Thymeleaf 를 사용하지 않기 때문에, 경고 메세지를 제거합니다.
+    spring.thymeleaf.check-template-location: false
+    org.hibernate.type: INFO
+
+jwt:
+  issuer: myteam.org
+  secret-key: 401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429080fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1
