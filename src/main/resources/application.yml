@@ -4,4 +4,4 @@ spring:
   application:
     name: myteam-server
 server:
-  port: 9090
+  port: 8080

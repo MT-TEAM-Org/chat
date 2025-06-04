@@ -3,16 +3,20 @@ spring:
     time-zone: Asia/Seoul
 
   datasource:
-    driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://${DB_ENDPOINT}:6543/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
-    username: postgres.vicajgpdbhjueqmakcme
-    password: ${DB_PASSWORD}
-
-  second-datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://${SECOND_DB_ENDPOINT}:3306/${SECOND_DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://${DB_ENDPOINT}:3306/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
     username: playhive
-    password: ${SECOND_DB_PASSWORD}
+    password: ${DB_PASSWORD}
+#    driver-class-name: org.postgresql.Driver
+#    jdbc-url: jdbc:postgresql://${DB_ENDPOINT}:6543/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+#    username: postgres.vicajgpdbhjueqmakcme
+#    password: ${DB_PASSWORD}
+
+#  second-datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    jdbc-url: jdbc:mysql://${SECOND_DB_ENDPOINT}:3306/${SECOND_DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+#    username: playhive
+#    password: ${SECOND_DB_PASSWORD}
 
   data:
     redis:
