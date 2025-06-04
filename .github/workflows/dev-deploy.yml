@@ -37,7 +37,7 @@ jobs:
       - name: Copy docker-compose.yml to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.AWS_SERVER_IP }}
+          host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: ./docker-compose.yml
@@ -68,7 +68,7 @@ jobs:
       - name: Install Java on AWS
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.AWS_SERVER_IP }}
+          host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
@@ -84,7 +84,7 @@ jobs:
       - name: Deploy to AWS and Restart Services with Docker Compose
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.AWS_SERVER_IP }}
+          host: ${{ secrets.AWS_CHAT_SERVER_IP }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |

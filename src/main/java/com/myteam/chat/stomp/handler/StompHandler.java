@@ -8,13 +8,13 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.myteam.chat.global.exception.ErrorCode;
 import com.myteam.chat.global.exception.PlayHiveException;
-import com.myteam.chat.global.jwt.JwtProvider;
+//import com.myteam.chat.global.jwt.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
 public class StompHandler implements ChannelInterceptor {
 
-	private final JwtProvider jwtProvider;
+//	private final JwtProvider jwtProvider;
 	// private final BanService banService;
 
 	@Override
@@ -62,22 +62,21 @@ public class StompHandler implements ChannelInterceptor {
 
 		String token = extractToken(authorizationHeader);
 
-		if (!jwtProvider.validToken(token)) {
-			log.warn("Invalid JWT token: {}", token);
-			throw new PlayHiveException(ErrorCode.INVALID_TOKEN);
-		}
+//		if (!jwtProvider.validToken(token)) {
+//			log.warn("Invalid JWT token: {}", token);
+//			throw new PlayHiveException(ErrorCode.INVALID_TOKEN);
+//		}
 
-		Authentication authentication = jwtProvider.getAuthentication(token);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		accessor.setUser(authentication);
+		// 세션에 token 저장
+		accessor.getSessionAttributes().put("token", token);
 
-		String username = accessor.getUser() != null ? accessor.getUser().getName() : null;
+		// 차단 로직
 		// if (banService.isBannedUser(username)) {
 		// 	log.warn("Banned user tried to connect: {}", username);
 		// 	throw new PlayHiveException(ErrorCode.BAN_USER);
 		// }
 
-		log.info("Authenticated user connected: {}", username);
+		log.info("Authenticated user connected: {}", token);
 	}
 
 	/**
