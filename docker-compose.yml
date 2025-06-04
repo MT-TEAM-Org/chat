@@ -17,4 +17,5 @@ services:
       TZ: ${TZ}
       JWT_ISSUER: ${JWT_ISSUER}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      FRONTEND_URL: ${FRONTEND_URL}
     restart: always

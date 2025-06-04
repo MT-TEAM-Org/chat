@@ -7,16 +7,35 @@ spring:
     url: jdbc:mysql://${DB_ENDPOINT}:3306/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
     username: playhive
     password: ${DB_PASSWORD}
-#    driver-class-name: org.postgresql.Driver
-#    jdbc-url: jdbc:postgresql://${DB_ENDPOINT}:6543/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
-#    username: postgres.vicajgpdbhjueqmakcme
-#    password: ${DB_PASSWORD}
 
-#  second-datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    jdbc-url: jdbc:mysql://${SECOND_DB_ENDPOINT}:3306/${SECOND_DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
-#    username: playhive
-#    password: ${SECOND_DB_PASSWORD}
+    #    driver-class-name: org.postgresql.Driver
+    #    jdbc-url: jdbc:postgresql://${DB_ENDPOINT}:6543/${DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+    #    username: postgres.vicajgpdbhjueqmakcme
+    #    password: ${DB_PASSWORD}
+
+    #  second-datasource:
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    jdbc-url: jdbc:mysql://${SECOND_DB_ENDPOINT}:3306/${SECOND_DB_NAME}?useSSL=false&serverTimezone=Asia/Seoul
+    #    username: playhive
+    #    password: ${SECOND_DB_PASSWORD}
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+        default_batch_fetch_size: 1000 #최적화 옵션
+        jdbc:
+          time_zone: Asia/Seoul
+    hibernate:
+      ddl-auto: none
+      #  create	기존테이블을 삭제하고 다시 생성
+      #  create-drop 기존테이블을 삭제하고 다시생성. 종료 시점에 테이블삭제
+      #  update	변경된 스키마 적용 (운영 DB 에서 사용X)
+      #  validate Entity 와 테이블이 정상 매핑 되었는지 확인
+      #  none 기존테이블을 더 이상 건드리지 않음.
+    open-in-view: true
 
   data:
     redis:
