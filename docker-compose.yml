@@ -17,5 +17,8 @@ services:
       TZ: ${TZ}
       JWT_ISSUER: ${JWT_ISSUER}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
     restart: always
