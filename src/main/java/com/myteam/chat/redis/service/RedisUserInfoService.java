@@ -25,6 +25,7 @@ public class RedisUserInfoService {
      */
     public Optional<UserInfo> getUserInfo(String token) {
         String key = PREFIX + token;
+        log.info("redis user info get key: {}", key);
         try {
             String value = (String) redisTemplate.opsForValue().get(key);
             if (value == null) return Optional.empty();
