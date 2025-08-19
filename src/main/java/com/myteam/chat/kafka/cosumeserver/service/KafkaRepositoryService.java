@@ -1,0 +1,39 @@
+package com.myteam.chat.kafka.cosumeserver.service;
+
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myteam.chat.kafka.cosumeserver.domain.Chat;
+import com.myteam.chat.kafka.cosumeserver.domain.ChatResponse;
+import com.myteam.chat.kafka.cosumeserver.repository.ChatRepository;
+import com.myteam.chat.kafka.cosumeserver.event.KafkaMsgSendEvent;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class KafkaRepositoryService {
+    private final ApplicationEventPublisher publisher;
+    private final ChatRepository chatRepository;
+    private final ObjectMapper objectMapper;
+    public void saveChatData(String topic,String response) throws JsonProcessingException {
+        String [] arr=topic.split("-");
+        ChatResponse chatResponse=objectMapper.readValue(response,ChatResponse.class);
+        Long chatRoomId=Long.parseLong(arr[1]);
+        Chat chat= Chat
+                .builder()
+                .chatRoomId(chatRoomId)
+                .msg(chatResponse.getMessage())
+                .memberId(chatResponse.getMemberId())
+                .build();
+        chatRepository.save(chat);
+        //이벤트를 왜쓰냐면은 최소한 저장은 완벽히 진행시에 다음 로직을 진행하기위함.
+        publisher.publishEvent(new KafkaMsgSendEvent(
+                chatResponse,
+                topic
+        ));
+    }
+}

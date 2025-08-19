@@ -76,6 +76,9 @@ dependencies {
 
     // h2 database
     runtimeOnly 'com.h2database:h2'
+
+    //채팅 기록용 몽고디비
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 tasks.named('test') {

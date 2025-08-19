@@ -1,12 +1,16 @@
 spring:
   jackson:
     time-zone: Asia/Seoul
-
   datasource:
     url: jdbc:h2:mem:~/playhive;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
+  second-datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://localhost:1433;database=sample
+    username: local
+    password: "****"
   jpa:
     hibernate:
       ddl-auto: create-drop
