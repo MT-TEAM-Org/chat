@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
-public class StompHandler implements ChannelInterceptor {
+public class StompInBoundHandler implements ChannelInterceptor {
 
 	private final RedisChatRoomService redisChatRoomService;
 

@@ -2,6 +2,7 @@ package com.myteam.chat.kafka.cosumeserver.stomp.config;
 
 import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompErrorHandler;
 import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompHandShakeHandler;
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompOutBoundHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -11,7 +12,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
-import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompHandler;
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompInBoundHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,9 +21,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-	private final StompHandler stompHandler;
+	private final StompInBoundHandler stompHandler;
 	private final StompHandShakeHandler stompHandShakeHandler;
 	private final StompErrorHandler stompErrorHandler;
+	private final StompOutBoundHandler stompOutBoundHandler;
 
 	@Value("${frontend.url}")
 	private String frontendUrl;
@@ -57,5 +59,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.interceptors(stompHandler);
+	}
+
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.interceptors(stompOutBoundHandler);
 	}
 }
