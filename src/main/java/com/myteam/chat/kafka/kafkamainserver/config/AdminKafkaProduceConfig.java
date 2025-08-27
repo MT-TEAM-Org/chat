@@ -18,8 +18,8 @@ import java.util.Map;
 //@Configuration
 public class AdminKafkaProduceConfig {
 
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String servers;
+   /* @Value("${spring.kafka.bootstrap-servers}")
+    private String servers;*/
 
     //requestconsume을 프로듀싱하는애 정확히 말하자면은 각 채팅서버의 consumer의 create,del을 유도함.
    // @Bean
