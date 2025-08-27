@@ -1,30 +1,35 @@
 package com.myteam.chat.kafka.cosumeserver.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myteam.chat.kafka.cosumeserver.config.KafkaConsumerConfig;
+import com.myteam.chat.kafka.cosumeserver.domain.ChatResponse;
 import com.myteam.chat.kafka.cosumeserver.redis.service.RedisChatRoomService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class KafkaConsumerControlService {
 
-    private final ConcurrentHashMap<String,
+   /* private final ConcurrentHashMap<String,
             List<ConcurrentMessageListenerContainer<String,String>>> consumerMap
             =new ConcurrentHashMap<>();
     private final KafkaConsumerConfig kafkaConsumerConfig;
-    private final KafkaRepositoryService kafkaRepositoryService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
     private final RedisChatRoomService redisChatRoomService;
+    private final ObjectMapper objectMapper;
 
     public void createConsumer(String topicName,Long roomId){
         List<ConcurrentMessageListenerContainer<String,String>> data=new ArrayList<>();
@@ -33,9 +38,11 @@ public class KafkaConsumerControlService {
                     =kafkaConsumerConfig.kafkaListenerContainerFactory()
                     .createContainer(topicName);
             container.setupMessageListener((MessageListener<String,String>) record->{
-                log.info("msg:{}",record.value());
                 try {
-                    kafkaRepositoryService.saveChatData(record.topic(), record.value());
+                   ChatResponse chatResponse=
+                           objectMapper.readValue(record.value(), ChatResponse.class);
+                   simpMessagingTemplate.convertAndSend("/room/"+roomId.toString()
+                           ,chatResponse);
                 }
                 catch (Exception e){
                     throw new RuntimeException(e.getCause().getMessage());
@@ -45,7 +52,8 @@ public class KafkaConsumerControlService {
             data.add(container);
         }
         consumerMap.put(topicName,data);
-        redisChatRoomService.openRoom(roomId);
+        log.info("consumer create success:{}",consumerMap.size());
+        //redisChatRoomService.openRoom(roomId);
     }
     public void removeConsumer(String topicName,Long roomId){
         List<ConcurrentMessageListenerContainer<String,String>> consumers=
@@ -57,7 +65,8 @@ public class KafkaConsumerControlService {
                     x.destroy();
                 });
         consumerMap.remove(topicName);
-        redisChatRoomService.closeRoom(roomId);
-    }
+        log.info("consumer remove success:{}",consumerMap.size());
+        //redisChatRoomService.closeRoom(roomId);
+    }*/
 
 }

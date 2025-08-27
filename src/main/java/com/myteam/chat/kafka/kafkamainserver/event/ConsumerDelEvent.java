@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ConsumerDelEvent {
-    private String del;
+
     private String topic;;
 
 
     @Builder
-    public ConsumerDelEvent(String del, String topic){
-        this.del=del;
+    public ConsumerDelEvent( String topic){
         this.topic=topic;
     }
 }

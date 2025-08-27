@@ -1,13 +1,11 @@
 package com.myteam.chat.kafka.cosumeserver.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myteam.chat.kafka.cosumeserver.domain.ChatResponse;
-import com.myteam.chat.kafka.cosumeserver.exception.SendStompError;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -19,17 +17,16 @@ import org.springframework.util.backoff.FixedBackOff;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaConsumerConfig {
 
-    private final SendStompError sendStompError;
-    private final String Kafka_Main_Sever="localhost:9092";
-    private final ObjectMapper objectMapper;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String Kafka_Main_Sever;
 
     //chatresponse 파싱하는애
-    @Bean
+    //@Bean
     public ConsumerFactory<String, String> kafkaConsumer(){
         Map<String,Object> config=new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Kafka_Main_Sever);
@@ -43,7 +40,7 @@ public class KafkaConsumerConfig {
     }
 
     //string타입으로 토픽이름 받아서 해당 토픽에 해당되는 consumer의 생성 및 삭제 진행
-    @Bean
+    //@Bean
     public ConsumerFactory<String,String> KafkaControlConsumer(){
         Map<String,Object> config=new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Kafka_Main_Sever);
@@ -56,18 +53,6 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
-    //userinfo객체로 파싱하기
-    @Bean  public ConsumerFactory<String, String> KafkaUserInfoConsumer(){
-        Map<String,Object> config=new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Kafka_Main_Sever);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "admin_group");
-        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        /*config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        JSON으로ㅓ 파싱시에 위의 TRUSTED_PACKAGES는 필수이다.*/
-        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"latest");
-        return new DefaultKafkaConsumerFactory<>(config);
-    }
 
 
     @Bean
@@ -81,14 +66,7 @@ public class KafkaConsumerConfig {
         fac.setConcurrency(1);
         DefaultErrorHandler defaultErrorHandler=new DefaultErrorHandler(
                 ((consumerRecord, e) -> {
-                    try{
-                    ChatResponse chatResponse = objectMapper.readValue((String)consumerRecord.value(), ChatResponse.class);
-                    log.info(e.getCause().getMessage());
-                    sendStompError.sendErrorMsgPersonal(chatResponse.getConnectionId(),
-                            e.getCause().getMessage());}
-                    catch (JsonProcessingException error){
-                        log.info("에러 발생으로 메세지 전달 자체를 실패함:{}",error.getMessage());
-                    }
+                    log.info("에러 발생으로 메시지 전달 실패:{}",e.getCause().getMessage());
                 })
                 ,new FixedBackOff(0,0)
         );
@@ -102,7 +80,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String,String>
-    kafkaControlListenerContainerFactory(){
+    adminKafkaListenerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String,String> fac
                 =new ConcurrentKafkaListenerContainerFactory<>();
         fac.setConsumerFactory(KafkaControlConsumer());
@@ -110,15 +88,6 @@ public class KafkaConsumerConfig {
         return fac;
     }
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String,String>
-    kafkaUserInfoListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String,String> fac
-                =new ConcurrentKafkaListenerContainerFactory<>();
-        fac.setConsumerFactory(KafkaUserInfoConsumer());
-        fac.setConcurrency(1);
-        return fac;
-    }
 
 
 

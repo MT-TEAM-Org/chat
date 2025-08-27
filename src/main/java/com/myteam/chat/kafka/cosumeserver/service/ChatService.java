@@ -29,11 +29,11 @@ public class ChatService {
 	/**
 	 * 채팅 생성
 	 */
-	public ChatResponse createChat(String token, String connectionId, String message) {
+	public ChatResponse createChat(String token, String message) {
 		message = validateAndTrimMessage(message);
 
 		String filteredMessage = badWordFilter.filterMessage(message);
-		ChatMessage chat = ChatMessage.createChat(connectionId, filteredMessage);
+		ChatMessage chat = ChatMessage.createChat(filteredMessage);
 
 		// redis에서 유저 정보 가져오기
 		UserInfo userInfo = redisUserInfoService.getUserInfo(token)

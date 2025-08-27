@@ -8,20 +8,20 @@ import com.myteam.chat.kafka.cosumeserver.domain.ChatResponse;
 import com.myteam.chat.kafka.cosumeserver.repository.ChatRepository;
 import com.myteam.chat.kafka.cosumeserver.event.KafkaMsgSendEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class KafkaRepositoryService {
     private final ApplicationEventPublisher publisher;
     private final ChatRepository chatRepository;
     private final ObjectMapper objectMapper;
-    public void saveChatData(String topic,String response) throws JsonProcessingException {
+    public void saveChatData(String topic,ChatResponse chatResponse) throws JsonProcessingException {
         String [] arr=topic.split("-");
-        ChatResponse chatResponse=objectMapper.readValue(response,ChatResponse.class);
         Long chatRoomId=Long.parseLong(arr[1]);
         Chat chat= Chat
                 .builder()
@@ -30,10 +30,12 @@ public class KafkaRepositoryService {
                 .memberId(chatResponse.getMemberId())
                 .build();
         chatRepository.save(chat);
+        //String val = objectMapper.writeValueAsString(chatResponse);
         //이벤트를 왜쓰냐면은 최소한 저장은 완벽히 진행시에 다음 로직을 진행하기위함.
         publisher.publishEvent(new KafkaMsgSendEvent(
                 chatResponse,
-                topic
+                String.valueOf(chatRoomId)//원래 topicname인대 카프카 몼서서 그냥 이값으로했습니다.
+                // 메모리 확장으로 카프카 돌릴수잇으면 추후대체 예정
         ));
     }
 }

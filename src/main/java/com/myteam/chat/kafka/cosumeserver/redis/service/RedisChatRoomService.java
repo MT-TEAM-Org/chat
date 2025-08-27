@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class RedisChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private static final String PREFIX = "roomCheck:";
+    private static final String PREFIX = "roomCheck";
 
 
     public void closeRoom(Long roomId){

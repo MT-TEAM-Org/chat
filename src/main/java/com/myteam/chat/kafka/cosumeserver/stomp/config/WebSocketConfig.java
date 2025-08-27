@@ -32,18 +32,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.setApplicationDestinationPrefixes("/play-hive");
-		registry.enableSimpleBroker("/room","/user");
+		registry.enableSimpleBroker("/room","/error");
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws-stomp")
+				.setAllowedOriginPatterns("*")
+				.setHandshakeHandler(stompHandShakeHandler)
+				.withSockJS()
+				.setHeartbeatTime(20000L);
+		/*registry.addEndpoint("/ws-stomp")
 			.setAllowedOrigins("http://localhost:3000", frontendUrl)
 				.setHandshakeHandler(stompHandShakeHandler)
 			.withSockJS();
 		registry.addEndpoint("/ws-stomp")
 			.setAllowedOrigins("http://localhost:3000", frontendUrl)
-				.setHandshakeHandler(stompHandShakeHandler);
+				.setHandshakeHandler(stompHandShakeHandler);*/
 		registry.setErrorHandler(stompErrorHandler);
 	}
 

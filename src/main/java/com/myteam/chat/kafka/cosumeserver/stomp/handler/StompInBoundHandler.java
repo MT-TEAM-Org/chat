@@ -36,9 +36,8 @@ public class StompInBoundHandler implements ChannelInterceptor {
 		if(command!=null&&command.equals(StompCommand.DISCONNECT)){
 			return message;
 		}
-		String roomId=getRoomId(accessor);
-		if(roomId==null||!redisChatRoomService.checkRoom(Long.valueOf(roomId))){
-			throw new PlayHiveException(ErrorCode.INVALID_CHATROOM);
+		if(command!=null&&command.equals(StompCommand.SUBSCRIBE)){
+			return message;
 		}
 		String authorizationHeader = getAuthorizationHeader(accessor);
 		if (authorizationHeader == null || authorizationHeader.isEmpty()) {
@@ -46,7 +45,12 @@ public class StompInBoundHandler implements ChannelInterceptor {
 			throw new PlayHiveException(ErrorCode.MISSING_AUTH_HEADER);
 		}
 		handleConnect(accessor, authorizationHeader);
-
+		if(command!=null&&!command.equals(StompCommand.CONNECT)) {
+			String roomId = getRoomId(accessor);
+			if (roomId == null || !redisChatRoomService.checkRoom(Long.valueOf(roomId))) {
+				throw new PlayHiveException(ErrorCode.INVALID_CHATROOM);
+			}
+		}
 		return message;
 	}
 
@@ -94,6 +98,6 @@ public class StompInBoundHandler implements ChannelInterceptor {
 		if(roomId==null){
 			return null;
 		}
-		return roomId.split("-")[1];
+		return roomId.split("\\.")[1];
 	}
 }

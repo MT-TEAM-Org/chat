@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,22 +16,14 @@ import lombok.NoArgsConstructor;
 public class ChatRoom extends BaseTime {
 
 	@Id
+	@Column(name = "room_id")
 	private Long id;
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="match_id")
-	private Match match;
-	@Column
-	private Boolean closed=false;
+	private String name;
 
 	@Builder
-	public ChatRoom(Long id,Match match){
+	public ChatRoom(Long id,String name){
 		this.id=id;
-		this.match=match;
-	}
-	public void updateClosed(){
-		this.closed=true;
-	}
-	public void cancleClosed(){
-		this.closed=false;
+		this.name=name;
+
 	}
 }

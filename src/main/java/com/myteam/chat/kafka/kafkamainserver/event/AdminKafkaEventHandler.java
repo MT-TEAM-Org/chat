@@ -19,37 +19,31 @@ import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
 
-@Component
-@RequiredArgsConstructor
+//@Component
+//@RequiredArgsConstructor
 @Slf4j
-public class KafkaEventHandler {
+public class AdminKafkaEventHandler {
 
-    @Qualifier("adminKafkaTemplate")
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    private final KafkaAdmin kafkaAdmin;
-    private final ChatRoomService chatRoomService;
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    //after commit으로 작동하는 이벤트라서 이벤트를 호출한애의 트랜잭션은 현재 닫힌상태
-    //엄밀히 말하면 db와의 트랜잭션이 닫힌거다. 그렇기에 여기서 chatroom의 상태를 업데이트하고
-    //db에 저장하기위해선 새로운 트랜잭션을 형성해줘야한다.
+
+//    private final KafkaAdmin kafkaAdmin;
+    //@Qualifier("adminKafkaTemplate")
+  //  private final KafkaTemplate<String,String> adminKafkaTemplate;
+    /*@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void ConsumerDelControl(ConsumerDelEvent consumerDelEvent){
         try (AdminClient adminClient =
                      AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
             adminClient.deleteTopics(Collections.singletonList(consumerDelEvent.getTopic())).all().get();
             log.info("Topic '{}' deleted successfully.",consumerDelEvent.getTopic());
-            kafkaTemplate.send(consumerDelEvent.getDel(),consumerDelEvent.getTopic());
+            adminKafkaTemplate.send("del",consumerDelEvent.getTopic());
         } catch (ExecutionException | InterruptedException e) {
             log.error("Failed to delete topic '{}': {}", consumerDelEvent.getTopic(), e.getMessage());
             Thread.currentThread().interrupt(); // 인터럽트 복원
-            String [] arr=consumerDelEvent.getTopic().split("-");
-            ChatRoom chatRoom=
-                    chatRoomService.findChatRoom(Long.parseLong(arr[1]));
-            chatRoom.cancleClosed();
         }
-    }
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void ConsumerCreateControl(ConsumerCreateEvent consumerEvent){
-        kafkaTemplate.send(consumerEvent.getCreate(),consumerEvent.getTopic());
-    }
+    }*/
+    /*@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void ConsumerCreateControl(ConsumerCreateEvent consumerCreateEvent){
+        log.info("create event:{}",consumerCreateEvent.getTopic());
+        adminKafkaTemplate.send("create",consumerCreateEvent.getTopic());
+    }*/
+
 }

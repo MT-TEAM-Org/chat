@@ -3,8 +3,6 @@ package com.myteam.chat.kafka.kafkamainserver.match.match.domain;
 import java.time.LocalDateTime;
 
 import com.myteam.chat.kafka.kafkamainserver.domain.BaseTime;
-import com.myteam.chat.kafka.kafkamainserver.match.team.domain.Team;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ConsumerCreateEvent {
-    private String create;
+
     private String topic;
     @Builder
-    public ConsumerCreateEvent(String create, String topic){
-        this.create=create;
+    public ConsumerCreateEvent(String topic){
         this.topic=topic;
     }
 }

@@ -7,6 +7,8 @@ import com.myteam.chat.kafka.kafkamainserver.match.match.domain.Match;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
@@ -15,7 +17,8 @@ public class ChatRoomService {
     public ChatRoom createChatRoom(Match match){
         ChatRoom chatRoom=ChatRoom
                 .builder()
-                .match(match)
+                .id(match.getId())
+                .name(match.getLeagueName())
                 .build();
         chatRoom=chatRoomRepository.save(chatRoom);
         return chatRoom;

@@ -2,6 +2,8 @@ package com.myteam.chat.kafka.kafkamainserver.service;
 
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
+
+import com.myteam.chat.kafka.cosumeserver.redis.service.RedisChatRoomService;
 import com.myteam.chat.kafka.kafkamainserver.domain.ChatRoom;
 import com.myteam.chat.kafka.kafkamainserver.event.ConsumerCreateEvent;
 import com.myteam.chat.kafka.kafkamainserver.event.ConsumerDelEvent;
@@ -21,16 +23,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TopicManagementService {
 
-   private final KafkaAdmin kafkaAdmin;
+   //private final KafkaAdmin kafkaAdmin;
    private final ChatRoomService chatRoomService;
-   private final ApplicationEventPublisher publisher;
+   //private final ApplicationEventPublisher publisher;
     private static final String TOPIC_PREFIX = "/topic/chat.match-";
-   /**
+    private final RedisChatRoomService redisChatRoomService;
+    /**
     * 동적 토픽 생성
     */
    public void createTopic(Match match) {
-       ChatRoom chatRoom=null;
-       try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+       //ChatRoom chatRoom=null;
+       ChatRoom chatRoom=chatRoomService.createChatRoom(match);
+       ConsumerCreateEvent consumerControlEvent=ConsumerCreateEvent
+               .builder()
+               .topic(TOPIC_PREFIX+chatRoom.getId())
+               .build();
+       log.info("success create chat_room:{}",chatRoom.getId());
+       redisChatRoomService.openRoom(chatRoom.getId());
+       //publisher.publishEvent(consumerControlEvent);
+       /*try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
            chatRoom=chatRoomService.createChatRoom(match);
            NewTopic topic = TopicBuilder
                    .name(TOPIC_PREFIX+chatRoom.getId())
@@ -42,7 +53,6 @@ public class TopicManagementService {
            ConsumerCreateEvent consumerControlEvent=ConsumerCreateEvent
                    .builder()
                    .topic(TOPIC_PREFIX+chatRoom.getId())
-                   .create("create")
                    .build();
            publisher.publishEvent(consumerControlEvent);
        } catch (ExecutionException | InterruptedException e) {
@@ -51,7 +61,7 @@ public class TopicManagementService {
            if(chatRoom!=null) {
                chatRoomService.eraseChatRoom(chatRoom.getId());
            }
-       }
+       }*/
    }
 
    /**
@@ -61,13 +71,12 @@ public class TopicManagementService {
        String [] arr=topicName.split("-");
        ChatRoom chatRoom=chatRoomService.findChatRoom(Long.parseLong(arr[1]));
        if(chatRoom!=null){
-           chatRoom.updateClosed();
-           ConsumerDelEvent consumerControlEvent= ConsumerDelEvent
+           redisChatRoomService.closeRoom(chatRoom.getId());
+           /*ConsumerDelEvent consumerControlEvent= ConsumerDelEvent
                    .builder()
                    .topic(topicName)
-                   .del("del")
-                   .build();
-           publisher.publishEvent(consumerControlEvent);
+                   .build();*/
+          // publisher.publishEvent(consumerControlEvent);
        }
    }
    /*public void deleteTopic(String topicName) {

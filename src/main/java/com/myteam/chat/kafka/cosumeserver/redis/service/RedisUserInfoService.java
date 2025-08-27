@@ -37,18 +37,4 @@ public class RedisUserInfoService {
         }
     }
 
-    public void delUserInfo(String token){
-        String key = PREFIX + token;
-        redisTemplate.delete(key);
-    }
-    public void updateUserInfo(String token,UserInfo userInfo){
-        try {
-            String key = PREFIX + token;
-            String value = objectMapper.writeValueAsString(userInfo);
-            redisTemplate.opsForValue().set(key, userInfo, 1L, TimeUnit.DAYS);
-        }
-        catch (Exception e){
-            log.error("fail to update user info",e);
-        }
-    }
 }

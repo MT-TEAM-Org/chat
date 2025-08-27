@@ -1,11 +1,9 @@
 package com.myteam.chat.kafka.cosumeserver.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.myteam.chat.kafka.cosumeserver.exception.ErrorCode;
 import com.myteam.chat.kafka.cosumeserver.exception.PlayHiveException;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.kafka.core.KafkaTemplate;
+import com.myteam.chat.kafka.cosumeserver.service.KafkaRepositoryService;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -15,39 +13,36 @@ import com.myteam.chat.kafka.cosumeserver.service.ChatService;
 import com.myteam.chat.kafka.cosumeserver.controller.request.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import java.security.Principal;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@Transactional
 public class ChatController {
 
-	private static final String TOPIC_PREFIX = "/topic/chat.match-";
+	private static final String TOPIC_PREFIX = "topic_chat.match-";
 	private final ChatService chatService;
-	@Qualifier("kafkaTemplate")
-	private final KafkaTemplate<String,String> kafkaTemplate;
-	private final ObjectMapper objectMapper;
+	private final KafkaRepositoryService kafkaRepositoryService;
 
 	@MessageMapping("/send.{roomId}")
-	public void sendMessage(@DestinationVariable Long roomId,
-						Principal principal,
+	public void sendMessage(@DestinationVariable(value = "roomId") Long roomId,
 						ChatMessage message,
 						StompHeaderAccessor headerAccessor) {
 		try {
 			log.info("Sending message to room {}: {}", roomId, message);
-
 			String token = (String) headerAccessor.getSessionAttributes().get("token");
 			// 저장 로직
 			ChatResponse response = chatService.createChat(
-					token, principal.getName(), message.getMessage());
+					token,message.getMessage());
 			// topic 경로 생성
 			String topic = TOPIC_PREFIX + roomId;
 			// 해당 토픽으로 전송
-			String val = objectMapper.writeValueAsString(response);
-			kafkaTemplate.send(topic, val);
+			kafkaRepositoryService.saveChatData(topic,response);
 		}
-		catch (JsonProcessingException e){
-			log.info("json파싱 에러발생");
+		catch (Exception e){
+			log.info("메시지 전달중에러 발생:{}",e.getMessage());
 			throw new PlayHiveException(ErrorCode.INTERNAL_SERVER_ERROR
 					,"서버에러 발생");
 		}
