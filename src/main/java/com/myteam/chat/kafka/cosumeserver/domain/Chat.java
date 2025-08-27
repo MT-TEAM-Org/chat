@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Entity(name = "chat")
+@Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "chat")
 public class Chat extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
