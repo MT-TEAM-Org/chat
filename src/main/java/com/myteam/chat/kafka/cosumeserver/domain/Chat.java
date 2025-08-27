@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-//@Table(name = "chat", schema = "playhive")
+@Table(name = "chat")
 public class Chat extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
