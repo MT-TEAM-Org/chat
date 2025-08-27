@@ -4,6 +4,7 @@ package com.myteam.chat.kafka.cosumeserver.controller;
 import com.myteam.chat.kafka.cosumeserver.exception.ErrorCode;
 import com.myteam.chat.kafka.cosumeserver.exception.PlayHiveException;
 import com.myteam.chat.kafka.cosumeserver.service.KafkaRepositoryService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -25,6 +26,8 @@ public class ChatController {
 	private static final String TOPIC_PREFIX = "topic_chat.match-";
 	private final ChatService chatService;
 	private final KafkaRepositoryService kafkaRepositoryService;
+	@Value("${spring.datasource.url}")
+	private String db_source_name;
 
 	@MessageMapping("/send.{roomId}")
 	public void sendMessage(@DestinationVariable(value = "roomId") Long roomId,
@@ -39,6 +42,7 @@ public class ChatController {
 			// topic 경로 생성
 			String topic = TOPIC_PREFIX + roomId;
 			// 해당 토픽으로 전송
+			log.info("db source name:{}",db_source_name);
 			kafkaRepositoryService.saveChatData(topic,response);
 		}
 		catch (Exception e){
