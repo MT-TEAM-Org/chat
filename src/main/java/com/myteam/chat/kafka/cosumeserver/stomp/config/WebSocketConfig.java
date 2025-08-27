@@ -1,0 +1,73 @@
+package com.myteam.chat.kafka.cosumeserver.stomp.config;
+
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompErrorHandler;
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompHandShakeHandler;
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompOutBoundHandler;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
+
+import com.myteam.chat.kafka.cosumeserver.stomp.handler.StompInBoundHandler;
+
+import lombok.RequiredArgsConstructor;
+
+@EnableWebSocketMessageBroker
+@Configuration
+@RequiredArgsConstructor
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+	private final StompInBoundHandler stompHandler;
+	private final StompHandShakeHandler stompHandShakeHandler;
+	private final StompErrorHandler stompErrorHandler;
+	private final StompOutBoundHandler stompOutBoundHandler;
+
+	@Value("${frontend.url}")
+	private String frontendUrl;
+
+	@Override
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.setApplicationDestinationPrefixes("/play-hive");
+		registry.enableSimpleBroker("/room","/error");
+	}
+
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/ws-stomp")
+				.setAllowedOriginPatterns("*")
+				.setHandshakeHandler(stompHandShakeHandler)
+				.withSockJS()
+				.setHeartbeatTime(20000L);
+		/*registry.addEndpoint("/ws-stomp")
+			.setAllowedOrigins("http://localhost:3000", frontendUrl)
+				.setHandshakeHandler(stompHandShakeHandler)
+			.withSockJS();
+		registry.addEndpoint("/ws-stomp")
+			.setAllowedOrigins("http://localhost:3000", frontendUrl)
+				.setHandshakeHandler(stompHandShakeHandler);*/
+		registry.setErrorHandler(stompErrorHandler);
+	}
+
+	// STOMP에서 64KB 이상의 데이터 전송을 못하는 문제 해결
+	@Override
+	public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+		registry.setMessageSizeLimit(160 * 64 * 1024);
+		registry.setSendTimeLimit(100 * 10000);
+		registry.setSendBufferSizeLimit(3 * 512 * 1024);
+
+	}
+
+	@Override
+	public void configureClientInboundChannel(ChannelRegistration registration) {
+		registration.interceptors(stompHandler);
+	}
+
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.interceptors(stompOutBoundHandler);
+	}
+}
