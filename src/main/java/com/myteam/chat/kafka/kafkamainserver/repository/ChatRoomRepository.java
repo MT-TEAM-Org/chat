@@ -11,7 +11,7 @@ import com.myteam.chat.kafka.kafkamainserver.domain.ChatRoom;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-	@Query("SELECT c FROM chat_room c WHERE c.startTime < :startOfDay")
+	@Query("SELECT c FROM chat_room c WHERE c.createDate < :startOfDay")
 	List<ChatRoom> findChatRoomYesterDay(@Param("startOfDay") LocalDate startOfDay);
 
 	boolean existsById(Long id);

@@ -22,40 +22,40 @@ import java.util.Map;
 @Slf4j
 public class KafkaConsumerConfig {
 
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String Kafka_Main_Sever;
+    /*@Value("${spring.kafka.bootstrap-servers}")
+    private String Kafka_Main_Sever;*/
 
     //chatresponse 파싱하는애
     //@Bean
-    public ConsumerFactory<String, String> kafkaConsumer(){
+    /*public ConsumerFactory<String, String> kafkaConsumer(){
         Map<String,Object> config=new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Kafka_Main_Sever);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "test_group");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        /*config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        JSON으로ㅓ 파싱시에 위의 TRUSTED_PACKAGES는 필수이다.*/
+        config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        JSON으로ㅓ 파싱시에 위의 TRUSTED_PACKAGES는 필수이다.
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"latest");
         return new DefaultKafkaConsumerFactory<>(config);
-    }
+    }*/
 
     //string타입으로 토픽이름 받아서 해당 토픽에 해당되는 consumer의 생성 및 삭제 진행
-    //@Bean
+   /* @Bean
     public ConsumerFactory<String,String> KafkaControlConsumer(){
         Map<String,Object> config=new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Kafka_Main_Sever);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "admin_group");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
-        /*config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        JSON으로ㅓ 파싱시에 위의 TRUSTED_PACKAGES는 필수이다.*/
+        config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        JSON으로ㅓ 파싱시에 위의 TRUSTED_PACKAGES는 필수이다.
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"latest");
         return new DefaultKafkaConsumerFactory<>(config);
-    }
+    }*/
 
 
 
-    @Bean
+   /* @Bean
     public ConcurrentKafkaListenerContainerFactory<String,String>
     kafkaListenerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String,String> fac
@@ -86,7 +86,7 @@ public class KafkaConsumerConfig {
         fac.setConsumerFactory(KafkaControlConsumer());
         fac.setConcurrency(1);
         return fac;
-    }
+    }*/
 
 
 
