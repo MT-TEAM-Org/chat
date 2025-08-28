@@ -42,7 +42,7 @@ public class ChatController {
 			// topic 경로 생성
 			String topic = TOPIC_PREFIX + roomId;
 			// 해당 토픽으로 전송
-			log.info("db source name:{}",db_source_name);
+	
 			kafkaRepositoryService.saveChatData(topic,response);
 		}
 		catch (Exception e){
