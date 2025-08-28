@@ -41,7 +41,12 @@ public class StompOutBoundHandler implements ChannelInterceptor {
             newAccessor.copyHeaders(accessor.toMap());
             maps.entrySet().stream().forEach(x->{
                 List<String> list=(List<String>) x.getValue();
-                newAccessor.setNativeHeader(x.getKey(),String.join(",",list));
+                if(x.getKey().equals("heart-beat")){
+                    newAccessor.setNativeHeader(x.getKey(),String.join(",",List.of("0","0")));
+                }
+                else {
+                    newAccessor.setNativeHeader(x.getKey(), String.join(",", list));
+                }
             });
             try {
                 String token=(String) mapsBySessionAttrs.get("token");
