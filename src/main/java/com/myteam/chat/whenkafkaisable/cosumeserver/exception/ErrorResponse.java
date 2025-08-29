@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
+/*@Getter
 public class ErrorResponse<T> {
     private final String timestamp = String.valueOf(LocalDateTime.now());
     private final HttpStatus status;
@@ -20,4 +20,4 @@ public class ErrorResponse<T> {
         this.message = message;
         this.data = data;
     }
-}
+}*/

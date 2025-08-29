@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 
-@Component
+/*@Component
 @RequiredArgsConstructor
 public class StompOutBoundHandler implements ChannelInterceptor {
 
@@ -63,4 +63,4 @@ public class StompOutBoundHandler implements ChannelInterceptor {
 
         return ChannelInterceptor.super.preSend(message, channel);
     }
-}
+}*/

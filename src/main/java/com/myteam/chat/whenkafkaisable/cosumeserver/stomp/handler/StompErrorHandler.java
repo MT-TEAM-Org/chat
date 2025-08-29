@@ -10,7 +10,7 @@ import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
 
 import java.nio.charset.StandardCharsets;
 
-@Component
+/*@Component
 @Slf4j
 public class StompErrorHandler extends StompSubProtocolErrorHandler {
     @Override
@@ -23,4 +23,4 @@ public class StompErrorHandler extends StompSubProtocolErrorHandler {
         return MessageBuilder.createMessage(ex.getCause().getMessage().getBytes(StandardCharsets.UTF_8)
                 ,headerAccessor.getMessageHeaders());
     }
-}
+}*/

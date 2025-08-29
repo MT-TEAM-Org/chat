@@ -22,6 +22,7 @@ public class TopicManagementService {
     */
    public void createTopic(Match match) {
        ChatRoom chatRoom=chatRoomService.createChatRoom(match);
+       redisChatRoomService.openRoom(chatRoom.getId());
        log.info("success create chat_room:{}",chatRoom.getId());
    }
 

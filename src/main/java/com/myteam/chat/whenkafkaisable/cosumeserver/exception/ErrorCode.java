@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import lombok.Getter;
 
-@Getter
+/*@Getter
 public enum ErrorCode {
 
     // 500 Server Error
@@ -28,10 +28,10 @@ public enum ErrorCode {
         this.msg = msg;
     }
 
-    /**
-     * 동적인 메시지 생성 (예: TTL 값을 포함)
-     */
+
+    // 동적인 메시지 생성 (예: TTL 값을 포함)
+
     public String getFormattedMessage(Object... args) {
         return String.format(this.msg.replace("{ttl}", "%s"), args);
     }
-}
+}*/

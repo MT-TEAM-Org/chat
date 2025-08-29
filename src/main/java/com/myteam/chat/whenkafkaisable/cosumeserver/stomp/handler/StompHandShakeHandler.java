@@ -10,11 +10,11 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
 
-@Component
+/*@Component
 public class StompHandShakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         return new StompPrincipal(UUID.randomUUID().toString());
     }
-}
+}*/

@@ -1,6 +1,6 @@
 package com.myteam.chat.currentChatDirectory.exception;
 
-import com.myteam.chat.whenkafkaisable.cosumeserver.exception.PlayHiveException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;

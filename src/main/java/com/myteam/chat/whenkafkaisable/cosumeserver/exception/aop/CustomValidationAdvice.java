@@ -14,7 +14,7 @@ import org.springframework.validation.FieldError;
 
 import com.myteam.chat.currentChatDirectory.exception.ErrorCode;
 
-@Aspect
+/*@Aspect
 @Component
 public class CustomValidationAdvice {
     @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
@@ -45,4 +45,4 @@ public class CustomValidationAdvice {
         }
         return proceedingJoinPoint.proceed();
     }
-}
+}*/

@@ -1,7 +1,7 @@
 package com.myteam.chat.currentChatDirectory.domain;
 
 
-import com.myteam.chat.whenkafkaisable.kafkamainserver.domain.BaseTime;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

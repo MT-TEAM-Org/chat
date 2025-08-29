@@ -20,7 +20,7 @@ import com.myteam.chat.currentChatDirectory.exception.PlayHiveException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+/*@Slf4j
 @RequiredArgsConstructor
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
@@ -52,12 +52,12 @@ public class StompInBoundHandler implements ChannelInterceptor {
 			}
 		}
 		return message;
-	}
+	}*/
 
 	/**
 	 * STOMP CONNECT 프레임 처리 로직
 	 */
-	private void handleConnect(StompHeaderAccessor accessor, String authorizationHeader) {
+	/*private void handleConnect(StompHeaderAccessor accessor, String authorizationHeader) {
 		if (!authorizationHeader.startsWith("[Bearer ")) {
 			log.warn("Authorization header missing or not Bearer type: {}", authorizationHeader);
 			throw new PlayHiveException(ErrorCode.MISSING_AUTH_HEADER);
@@ -68,23 +68,23 @@ public class StompInBoundHandler implements ChannelInterceptor {
 		// 세션에 token 저장
 		accessor.getSessionAttributes().put("token", token);
 		log.info("Authenticated user connected: {}", token);
-	}
+	}*/
 
 	/**
 	 * STOMP 헤더에서 "Authorization" 값을 얻는다.
 	 */
-	private String getAuthorizationHeader(StompHeaderAccessor accessor) {
+	/*private String getAuthorizationHeader(StompHeaderAccessor accessor) {
 		String authHeaders = String.valueOf(accessor.getNativeHeader("Authorization"));
 		if (authHeaders == null || authHeaders.isEmpty()) {
 			return null;
 		}
 		return authHeaders;
-	}
+	}*/
 
 	/**
 	 * "[Bearer xxxxx]" 형태에서 실제 토큰 부분만 추출
 	 */
-	private String extractToken(String authorizationHeader) {
+	/*private String extractToken(String authorizationHeader) {
 		String[] parts = authorizationHeader.split(" ");
 		if (parts.length < 2) {
 			throw new PlayHiveException(ErrorCode.MISSING_AUTH_HEADER);
@@ -100,4 +100,4 @@ public class StompInBoundHandler implements ChannelInterceptor {
 		}
 		return roomId.split("\\.")[1];
 	}
-}
+}*/

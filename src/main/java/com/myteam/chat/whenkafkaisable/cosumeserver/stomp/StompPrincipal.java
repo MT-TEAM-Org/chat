@@ -2,7 +2,7 @@ package com.myteam.chat.whenkafkaisable.cosumeserver.stomp;
 
 import java.security.Principal;
 
-public class StompPrincipal implements Principal {
+/*public class StompPrincipal implements Principal {
 
     private String name;
 
@@ -14,4 +14,4 @@ public class StompPrincipal implements Principal {
     public String getName() {
         return this.name;
     }
-}
+}*/

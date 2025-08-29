@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.security.Principal;
 
-@ControllerAdvice
+/*@ControllerAdvice
 @RequiredArgsConstructor
 @Slf4j
 public class ExceptionController {
@@ -24,4 +24,4 @@ public class ExceptionController {
         simpMessagingTemplate.convertAndSend(
                 des,e.getMessage());
     }
-}
+}*/
