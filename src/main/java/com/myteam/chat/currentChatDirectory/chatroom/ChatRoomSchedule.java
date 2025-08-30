@@ -28,6 +28,7 @@ public class ChatRoomSchedule {
 	//매일 새벽 3시
 	@Scheduled(cron = "0 0 3 * * *")
 	public void chatRoomCron() {
+		log.info("cron start");
 		//채팅방 토픽 삭제
 		chatRoomReadService.findChatRoomYesterDay().forEach(chatRoom -> {
 			topicManagementService.deleteTopic(TOPIC_PREFIX + chatRoom.getId());
