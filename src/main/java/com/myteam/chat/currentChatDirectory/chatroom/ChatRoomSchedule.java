@@ -1,8 +1,11 @@
+package com.myteam.chat.currentChatDirectory.chatroom;
+
 import com.myteam.chat.currentChatDirectory.chatroom.TopicManagementService;
 import com.myteam.chat.currentChatDirectory.match.match.domain.MatchCategory;
 import com.myteam.chat.currentChatDirectory.match.match.service.MatchReadService;
 import com.myteam.chat.currentChatDirectory.service.ChatRoomReadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ChatRoomSchedule {
 
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -22,8 +26,10 @@ public class ChatRoomSchedule {
 	private final ChatRoomReadService chatRoomReadService;
 
 	//매일 새벽 3시
-	@Scheduled(cron = "0 0 3 * * *")
+	//@Scheduled(cron = "0 0 3 * * *")
+	@Scheduled(cron = "0 * * * * *")
 	public void chatRoomCron() {
+		log.info("cron started");
 		//채팅방 토픽 삭제
 		chatRoomReadService.findChatRoomYesterDay().forEach(chatRoom -> {
 			topicManagementService.deleteTopic(TOPIC_PREFIX + chatRoom.getId());

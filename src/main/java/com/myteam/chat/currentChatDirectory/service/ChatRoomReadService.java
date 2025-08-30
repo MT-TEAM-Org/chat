@@ -1,6 +1,7 @@
 package com.myteam.chat.currentChatDirectory.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.myteam.chat.currentChatDirectory.domain.ChatRoom;
@@ -17,7 +18,7 @@ public class ChatRoomReadService {
 	private final ChatRoomRepository chatRoomRepository;
 
 	public List<ChatRoom> findChatRoomYesterDay() {
-		return chatRoomRepository.findChatRoomYesterDay(LocalDate.now());
+		return chatRoomRepository.findChatRoomYesterDay(LocalDateTime.now());
 	}
 
 	public boolean existsById(Long id) {

@@ -34,7 +34,7 @@ public class TopicManagementService {
        ChatRoom chatRoom=chatRoomService.findChatRoom(Long.parseLong(arr[1]));
        if(chatRoom!=null){
            redisChatRoomService.closeRoom(chatRoom.getId());
-
+           log.info("success closed chat_room:{}",chatRoom.getId());
        }
    }
 
